@@ -1,0 +1,11 @@
+source /var/root/.jenkins/CommonFiles/7.jq.sh
+Y=$common/Y
+mkdir -p $Y
+rm   -rf $Y/*
+
+curl http://locallinux:8080/Z/Dockerfile -o $Y/Dockerfile
+curl http://locallinux:8080/Z/X.sh       -o $Y/X.sh
+
+ls $common
+cd $Y && ls
+bash X.sh

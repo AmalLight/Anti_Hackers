@@ -1,0 +1,5 @@
+common=/var/root/.jenkins/CommonFiles
+echo ''
+find $common
+echo ''
+find $common -type f | xargs -I {} bash -c "echo '' && echo 'cat {}' && cat {} && echo ''"

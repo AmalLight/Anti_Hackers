@@ -1,0 +1,35 @@
+FROM tensorflow
+
+RUN apt update && apt upgrade -y
+RUN apt install -y curl wget unzip
+RUN apt install -y gdb gcc g++
+RUN apt install -y build-essential
+
+RUN pip3 install --upgrade pip
+
+# https://libraries.io/pypi/pandas
+
+RUN pip3 install --default-timeout=1000 cython tensorflow_datasets
+
+RUN curl 'https://github.com/pandas-dev/pandas/archive/refs/tags/v1.4.2.zip' -L -o ./pandas.zip
+RUN unzip ./pandas.zip && cd 'pandas-1.4.2' && /usr/bin/python3 setup.py install
+
+RUN /usr/bin/python3 -c 'import pandas as pd'
+
+RUN pip3 install --default-timeout=1000 --no-deps scikit-learn matplotlib seaborn
+RUN pip3 install --default-timeout=1000 --no-deps matplotlib seaborn zip-files
+RUN pip3 install --default-timeout=1000 --no-deps zip-files pillow SciPy numpy
+
+RUN python3 -c 'import tensorflow as tf; \
+                (training_images, training_labels) , (test_images, test_labels) = \
+                tf.keras.datasets.fashion_mnist.load_data ()'
+
+RUN python3 -c 'import tensorflow as tf; \
+                (training_images, training_labels) , (test_images, test_labels) = \
+                tf.keras.datasets.mnist.load_data ()'
+                
+RUN python3 -c 'import tensorflow_datasets as tfds; \
+                imdb, info = tfds.load ( "imdb_reviews" , with_info = True , as_supervised = True )'
+
+RUN apt autoremove -y && apt autoclean -y && apt clean -y
+RUN sync && rm -rf /var/lib/apt/lists/*

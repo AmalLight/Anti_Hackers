@@ -1,0 +1,28 @@
+FROM debian
+
+RUN mkdir /mount
+RUN mkdir /static
+
+RUN apt update
+RUN apt upgrade -y
+
+RUN apt install -y pulseaudio x11-utils xdg-utils xauth
+
+# https://wiki.debian.org/ALSA#Packages
+
+RUN useradd -ms /bin/bash guest
+RUN adduser guest audio
+RUN adduser guest video
+RUN touch /home/guest/.Xauthority
+
+# https://unrealcontainers.com/docs/concepts/audio-output
+
+RUN echo 'load-module module-always-sink' >> /etc/pulse/default.pa
+
+RUN echo 'default-server = unix:/run/user/1000/pulse/native' >> /etc/pulse/client.conf
+RUN echo 'autospawn = no'                                    >> /etc/pulse/client.conf
+RUN echo 'daemon-binary = /bin/true'                         >> /etc/pulse/client.conf
+RUN echo 'enable-shm = false'                                >> /etc/pulse/client.conf
+
+RUN apt autoremove -y && apt autoclean -y && apt clean -y
+RUN rm -rf /var/lib/apt/list/*

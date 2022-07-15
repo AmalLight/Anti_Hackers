@@ -1,0 +1,6 @@
+common=/var/root/.jenkins/CommonFiles
+rm -f $common/X.sh
+curl http://locallinux:8080/macM1_linux_init/X.sh -o $common/X.sh
+
+ls $common
+bash $common/X.sh

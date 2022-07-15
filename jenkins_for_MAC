@@ -1,0 +1,16 @@
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" # https://brew.sh/
+
+brew install        jenkins
+brew services start jenkins
+
+# cp /Users/amallight/Library/LaunchAgents/homebrew.mxcl.jenkins.plist ./jenkins.plist
+
+# sudo cp ./jenkins.plist  /Library/LaunchDaemons/jenkins.plist
+# sudo launchctl load   -w /Library/LaunchDaemons/jenkins.plist
+# sudo launchctl unload -w /Library/LaunchDaemons/jenkins.plist
+
+# sudo cat /var/root/.jenkins/secrets/initialAdminPassword
+
+brew install jq
+
+# remember to disable screensaver and power memory management

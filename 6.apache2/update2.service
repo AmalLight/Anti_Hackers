@@ -1,0 +1,9 @@
+[Unit]
+Description=Update2
+
+[Service]
+ExecStart=/bin/bash /var/www/html/update2.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
